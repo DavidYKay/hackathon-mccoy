@@ -1,0 +1,67 @@
+% NS_B
+<s>        sil
+
+% NS_E
+</s>        sil
+
+% SHORTCOMMAND
+VIEW        v y uw
+RUN         r ah n
+UP          ah p
+DOWN        d aw n
+LEFT        l eh f t
+RIGHT       r ay t
+NEARER      n ih r er
+CLOSER      k l ow s er
+FURTHER     f er dh er
+RESET       r iy s eh t
+
+% STARTUP
+BEGIN       b ix g ih n
+
+% FLAVOR
+LET'S       l eh t s
+
+% BODYPART
+ARM         aa r m
+LEG         l eh g 
+HEAD        hh eh d
+BODY        b aa dx iy
+
+% NAME
+MCCOY	   m ax k oy
+
+% DIGIT
+FIVE       f ay v
+FOUR       f ao r
+NINE       n ay n
+EIGHT      ey t
+OH         ow
+ONE        w ah n
+SEVEN      s eh v ax n
+SIX        s ih k s
+THREE      th r iy
+TWO        t uw
+ZERO       z ih r ow
+
+% UNIT
+DEGREE     d ix g r iy
+FEET       f iy t
+FOOT       f uh t
+INCH       ih n ch
+
+% DECIMAL
+THIRTY     th er dx iy
+FORTY      f ao r dx iy
+SIXTY      s ih k s t iy
+EIGHTY     ey dx iy
+NINETY     n ay n t iy
+
+% TRIPLEDIGIT
+HUNDRED    hh ah n d r ax d
+
+% PORTION
+FULL       f uh l
+HALF       hh ae f
+HALFWAY    hh ae f w ey
+QUARTER    k w ao r dx er

@@ -1,0 +1,4 @@
+#!/bin/bash
+#padsp julius -quiet -input mic -C julian.jconf
+#padsp julius -input mic -C julian.jconf
+padsp julius -input mic -C voice/julian.jconf
