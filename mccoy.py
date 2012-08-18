@@ -113,21 +113,23 @@ def setup():
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
-def rotate_model(x, y):
+def rotate_model_to(x, y):
   global rx, ry
-  print "Initial XY values: (%f, %f)" % (rx, ry)
   #rx = x
   #ry = y
-  
   rx = y
   ry = x
   #rz = y
-  print "final XY values: (%f, %f)" % (rx, ry)
+
+def rotate_model_by(x, y):
+  global rx, ry
+  rx += y
+  ry += x
 
 class McCoyMouseHandler:
   def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
     print "Mouse was dragged!"
-    rotate_model(x, y)
+    rotate_model_to(x, y)
     #if buttons & mouse.LEFT:
     #    pass
 
@@ -135,9 +137,12 @@ class McCoyMouseHandler:
 def print_sentence(sentence):
   print "Printing sentence: %s" % sentence
 
+def handle_speech(sentence):
+  rotate_model_by(30, 0)
+
 class SpeechListenerThread(threading.Thread):
  def run (self):
-  listener = SpeechListener(print_sentence)
+  listener = SpeechListener(handle_speech)
   listener.loop()
   
 
@@ -162,7 +167,6 @@ def main():
 
   window.push_handlers(McCoyMouseHandler())
   pyglet.app.run()
-
 
 #dialog = kytten.Dialog(
 #    kytten.TitleFrame("Kytten Demo",
