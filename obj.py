@@ -5,18 +5,25 @@ from pyglet.gl import *
 from pyglet import image
 
 class Material(object):
-    diffuse = [.8, .8, .8]
-    ambient = [.2, .2, .2]
-    specular = [0., 0., 0.]
-    emission = [0., 0., 0.]
+    diffuse   = [.8, .8, .8]
+    ambient   = [.2, .2, .2]
+    specular  = [0., 0., 0.]
+    emission  = [0., 0., 0.]
     shininess = 0.
-    opacity = 1.
-    texture = None
+
+    #specular  = [0.5, 0.5, 0.5]
+    #emission  = [0.5, 0.5, 0.5]
+    #shininess = 0.5
+
+    opacity   = 1.
+    texture   = None
 
     def __init__(self, name):
         self.name = name
 
     def apply(self, face=GL_FRONT_AND_BACK):
+        print "Applying material: %s" % self
+        #import pdb; pdb.set_trace()
         if self.texture:
             glEnable(self.texture.target)
             glBindTexture(self.texture.target, self.texture.id)
@@ -32,6 +39,17 @@ class Material(object):
         glMaterialfv(face, GL_EMISSION,
             (GLfloat * 4)(*(self.emission + [self.opacity])))
         glMaterialf(face, GL_SHININESS, self.shininess)
+
+    def __str__(self):
+      return """diffuse: %s, 
+      ambient: %s, 
+      specular: %s,
+      emission: %s,
+      shininess: %s""" % (self.diffuse,
+                         self.ambient,
+                         self.specular,
+                         self.emission,
+                         self.shininess)
 
 class MaterialGroup(object):
     def __init__(self, material):
@@ -57,10 +75,12 @@ class Mesh(object):
 
         glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT)
         glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT | GL_LIGHTING_BIT)
+        #glPushAttrib(GL_CURRENT_BIT | GL_ENABLE_BIT)
         glEnable(GL_CULL_FACE)
         glCullFace(GL_BACK)
         for group in self.groups:
             group.material.apply()
+            #DUMMY_MATERIAL.apply()
             if group.array is None:
                 group.array = (GLfloat * len(group.vertices))(*group.vertices)
                 group.triangles = len(group.vertices) / 8
@@ -112,6 +132,7 @@ class OBJ:
             elif values[0] == 'vt':
                 tex_coords.append(map(float, values[1:3]))
             elif values[0] == 'mtllib':
+                #pass
                 self.load_material_library(values[1])
             elif values[0] in ('usemtl', 'usemat'):
                 material = self.materials.get(values[1], None)
@@ -176,6 +197,7 @@ class OBJ:
             if not values:
                 continue
 
+            #import pdb; pdb.set_trace()
             if values[0] == 'newmtl':
                 material = Material(values[1])
                 self.materials[material.name] = material
@@ -207,3 +229,67 @@ class OBJ:
     def draw(self):
         for mesh in self.mesh_list:
             mesh.draw()
+
+DUMMY_MATERIAL = Material('Example')
+
+def loadOBJ(filename):  
+    numVerts = 0  
+    verts = []  
+    norms = []  
+    vertsOut = []  
+    normsOut = []  
+    for line in open(filename, "r"):  
+        vals = line.split()  
+        if vals[0] == "v":  
+            v = map(float, vals[1:4])  
+            verts.append(v)  
+        if vals[0] == "vn":  
+            n = map(float, vals[1:4])  
+            norms.append(n)  
+        if vals[0] == "f":  
+            for f in vals[1:]:  
+                w = f.split("/")  
+                # OBJ Files are 1-indexed so we must subtract 1 below  
+                vertsOut.append(list(verts[int(w[0])-1]))  
+                normsOut.append(list(norms[int(w[2])-1]))  
+                numVerts += 1  
+    return vertsOut, normsOut  
+
+class Man(object):
+  def __init__(self, filename):
+    vertices, normals = loadOBJ(filename)
+    self.vertices = vertices
+    self.normals = normals
+    
+    #import pdb; pdb.set_trace()
+
+    #c_vertices = (GLfloat * len(vertices))(*vertices)
+    #c_normals  = (GLfloat * len(normals))(*normals)
+    
+    raw_vertices = [value for vertex in vertices for value in vertex]
+    raw_normals  = [value for normal in normals  for value in normal]
+
+    c_vertices = (GLfloat * len(raw_vertices))(*raw_vertices)
+    c_normals  = (GLfloat * len(raw_normals)) (*raw_normals)
+
+    indices = []
+    for i in range(len(raw_vertices) - 1):
+      if (i + 1) % 3 == 0:
+        #indices.append(raw_vertices[i])
+        indices.append(i)
+
+    indices = (GLuint * len(indices))(*indices)
+
+    self.list = glGenLists(1)
+    glNewList(self.list, GL_COMPILE)
+
+    glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT)
+    glEnableClientState(GL_VERTEX_ARRAY)
+    glEnableClientState(GL_NORMAL_ARRAY)
+    glVertexPointer(3, GL_FLOAT, 0, c_vertices)
+    glNormalPointer(GL_FLOAT, 0, c_normals)
+    glDrawElements(GL_TRIANGLES, len(indices), GL_UNSIGNED_INT, indices)
+    glPopClientAttrib()
+
+  def draw(self):
+    glCallList(self.list)
