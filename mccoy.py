@@ -71,7 +71,7 @@ def on_draw():
     glRotatef(view_controller.camera.rotation.z, 0, 0, 1)
     glRotatef(view_controller.camera.rotation.y, 0, 1, 0)
     glRotatef(view_controller.camera.rotation.x, 1, 0, 0)
-    for mesh in meshes:
+    for mesh in view_controller.meshes:
       mesh.draw()
     #torus.draw()
     
@@ -146,10 +146,8 @@ def main():
   box = OBJ('models/box.obj')
   man = OBJ('models/man-colored.obj')
 
-  global meshes 
-  meshes = []
-  meshes.append(torus)
-  meshes.append(man)
+  view_controller.meshes.append(torus)
+  view_controller.meshes.append(man)
 
   global batch
   batch = pyglet.graphics.Batch()
