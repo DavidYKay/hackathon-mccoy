@@ -18,6 +18,8 @@ PORTIONS_TO_NUM = {
     'HALF' : 0.5,
     'HALFWAY' : 0.5,
     'QUARTER' : 0.25,
+    'SLIGHTLY' : 0.05,
+    'SLIGHT' : 0.05,
 }
 
 # Tokens up to 90
@@ -93,7 +95,7 @@ t_FLAVOR = (r"LET'S")
 
 t_UNIT = (r"DEGREE|FEET|FOOT|INCH")
 
-t_PORTION = (r"FULL|HALFWAY|HALF|QUARTER")
+t_PORTION = (r"FULL|HALFWAY|HALF|QUARTER|SLIGHTLY|SLIGHT")
 
 t_DIGIT = (r"OH|ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE")
 t_DECIMAL = (r"THIRTY|FORTY|SIXTY|EIGHTY|NINETY")
@@ -192,6 +194,10 @@ def p_command_portion(p):
   'command : QUANTITY_COMMAND PORTION'
   p[0] = Command(p[1], quantity=Quantity(p[2]))
 
+def p_command_portion_reverse(p):
+  'command : PORTION QUANTITY_COMMAND'
+  p[0] = Command(p[1], quantity=Quantity(p[2]))
+
 def p_command_quantity_unit(p):
   'command : QUANTITY_COMMAND quantity UNIT'
   p[0] = Command(p[1], quantity=p[2], unit=p[3])
@@ -229,6 +235,8 @@ class TestPly(unittest.TestCase):
     MCCOY VIEW ARM
     MCCOY VIEW HEAD
     MCCOY VIEW ALL
+    SLIGHTLY CLOSER
+    SLIGHTLY FURTHER
     '''
   def tearDown(self):
     pass
@@ -260,6 +268,8 @@ class TestParser(unittest.TestCase):
     RIGHT HUNDRED FORTY FIVE DEGREE
     RIGHT HALFWAY
     RIGHT QUARTER
+    SLIGHTLY CLOSER
+    SLIGHTLY FURTHER
     '''
     '''
     '''
