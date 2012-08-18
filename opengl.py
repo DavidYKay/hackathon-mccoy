@@ -19,6 +19,8 @@ from pyglet.gl import *
 from pyglet.window import mouse
 import pyglet
 
+import kytten
+
 import obj
 from obj import Mesh, OBJ, loadOBJ
 from shapes import Torus
@@ -42,6 +44,13 @@ def on_resize(width, height):
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
+#global rx = 0
+#global ry = 0
+#global rz = 0
+rx = 0
+ry = 0
+rz = 0
+
 def update(dt):
     global rx, ry, rz
     #rx += dt * 1
@@ -64,6 +73,9 @@ def on_draw():
     for mesh in meshes:
       mesh.draw()
     #torus.draw()
+    
+    # draw the UI
+    batch.draw()
 
 def setup():
     # One-time GL setup
@@ -99,8 +111,15 @@ def setup():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 def rotate_model(x, y):
-  rx = x
-  ry = y
+  global rx, ry
+  print "Initial XY values: (%f, %f)" % (rx, ry)
+  #rx = x
+  #ry = y
+  
+  rx = y
+  ry = x
+  #rz = y
+  print "final XY values: (%f, %f)" % (rx, ry)
 
 class McCoyMouseHandler:
   def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
@@ -108,6 +127,7 @@ class McCoyMouseHandler:
     rotate_model(x, y)
     #if buttons & mouse.LEFT:
     #    pass
+
 
 meshes = []
 
@@ -123,6 +143,20 @@ meshes.append(man)
 
 rx = ry = rz = 0
 
+batch = pyglet.graphics.Batch()
+
 window.push_handlers(McCoyMouseHandler())
 #window.push_handlers(pyglet.window.event.WindowEventLogger())
 pyglet.app.run()
+
+#dialog = kytten.Dialog(
+#    kytten.TitleFrame("Kytten Demo",
+#                      kytten.VerticalLayout([
+#                          kytten.Label("Select dialog to show"),
+#                          kytten.Menu(options=["Document", "Form", "Scrollable"],
+#                                      on_select=on_select),
+#                          ]),
+#                      ),
+#    window=window, batch=batch, group=fg_group,
+#    anchor=kytten.ANCHOR_TOP_LEFT,
+#    theme=theme)
