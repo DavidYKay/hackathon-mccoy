@@ -140,25 +140,28 @@ class SpeechListenerThread(threading.Thread):
   listener = SpeechListener(print_sentence)
   listener.loop()
   
-SpeechListenerThread().start()
 
-meshes = []
+def main():
+  SpeechListenerThread().start()
+  global meshes 
+  meshes = []
 
-setup()
-torus = Torus(1, 0.3, 50, 30)
+  setup()
+  torus = Torus(1, 0.3, 50, 30)
 
-box = OBJ('models/box.obj')
-man = OBJ('models/man-colored.obj')
+  box = OBJ('models/box.obj')
+  man = OBJ('models/man-colored.obj')
 
-meshes.append(torus)
-meshes.append(man)
+  meshes.append(torus)
+  meshes.append(man)
 
-rx = ry = rz = 0
+  rx = ry = rz = 0
 
-batch = pyglet.graphics.Batch()
+  global batch
+  batch = pyglet.graphics.Batch()
 
-window.push_handlers(McCoyMouseHandler())
-pyglet.app.run()
+  window.push_handlers(McCoyMouseHandler())
+  pyglet.app.run()
 
 
 #dialog = kytten.Dialog(
@@ -172,3 +175,6 @@ pyglet.app.run()
 #    window=window, batch=batch, group=fg_group,
 #    anchor=kytten.ANCHOR_TOP_LEFT,
 #    theme=theme)
+
+if __name__ == "__main__":
+  main()
