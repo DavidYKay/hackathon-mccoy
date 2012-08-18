@@ -16,6 +16,7 @@ This example demonstrates:
 from math import pi, sin, cos
 
 from pyglet.gl import *
+from pyglet.window import mouse
 import pyglet
 
 import obj
@@ -44,7 +45,7 @@ def on_resize(width, height):
 def update(dt):
     global rx, ry, rz
     #rx += dt * 1
-    ry += dt * 80
+    #ry += dt * 80
     #rz += dt * 30
     rx %= 360
     ry %= 360
@@ -97,23 +98,24 @@ def setup():
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
+def rotate_model(x, y):
+  rx = x
+  ry = y
+
+class McCoyMouseHandler:
+  def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+    print "Mouse was dragged!"
+    rotate_model(x, y)
+    #if buttons & mouse.LEFT:
+    #    pass
+
 meshes = []
 
 setup()
 torus = Torus(1, 0.3, 50, 30)
 
 box = OBJ('models/box.obj')
-#man = OBJ('models/man.obj')
-#man = OBJ('models/man-centered.obj')
-#man = OBJ('models/man-centered-2.obj')
-#man = OBJ('models/man-smooth.obj')
-#man = OBJ('models/man-red.obj')
-#man.load_material_library('man-centered-2.mtl')
-#man = OBJ('models/man-normals.obj')
 man = OBJ('models/man-colored.obj')
-
-#man = obj.Man('models/man-red.obj')
-#man = obj.Man('models/box.obj')
 
 meshes.append(torus)
 #meshes.append(box)
@@ -121,4 +123,6 @@ meshes.append(man)
 
 rx = ry = rz = 0
 
+window.push_handlers(McCoyMouseHandler())
+#window.push_handlers(pyglet.window.event.WindowEventLogger())
 pyglet.app.run()
