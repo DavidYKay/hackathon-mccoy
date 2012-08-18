@@ -10,11 +10,6 @@ class Material(object):
     specular  = [0., 0., 0.]
     emission  = [0., 0., 0.]
     shininess = 0.
-
-    #specular  = [0.5, 0.5, 0.5]
-    #emission  = [0.5, 0.5, 0.5]
-    #shininess = 0.5
-
     opacity   = 1.
     texture   = None
 
