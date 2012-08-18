@@ -48,7 +48,6 @@ def on_resize(width, height):
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
-
 camera_rotation = Vector3()
 
 def update(dt):
@@ -145,8 +144,6 @@ class SpeechListenerThread(threading.Thread):
 
 def main():
   SpeechListenerThread().start()
-  global meshes 
-  meshes = []
 
   setup()
   torus = Torus(1, 0.3, 50, 30)
@@ -154,10 +151,10 @@ def main():
   box = OBJ('models/box.obj')
   man = OBJ('models/man-colored.obj')
 
+  global meshes 
+  meshes = []
   meshes.append(torus)
   meshes.append(man)
-
-  rx = ry = rz = 0
 
   global batch
   batch = pyglet.graphics.Batch()
