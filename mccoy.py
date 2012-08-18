@@ -113,11 +113,8 @@ def setup():
 
 def rotate_model_to(x, y):
   global view_controller
-  #rx = x
-  #ry = y
   view_controller.camera.rotation.x = y
   view_controller.camera.rotation.y = x
-  #rz = y
 
 def rotate_model_by(x, y):
   global view_controller
@@ -146,8 +143,8 @@ def main():
   box = OBJ('models/box.obj')
   man = OBJ('models/man-colored.obj')
 
-  view_controller.meshes.append(torus)
-  view_controller.meshes.append(man)
+  meshes.append(torus)
+  meshes.append(man)
 
   global batch
   batch = pyglet.graphics.Batch()
