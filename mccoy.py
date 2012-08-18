@@ -20,12 +20,12 @@ from pyglet.gl import *
 from pyglet.window import mouse
 import pyglet
 
-import kytten
-
 from listener import SpeechListener
 
 from view import obj
 from view.obj import Mesh, OBJ, loadOBJ
+#from view.camera import Camera
+from view.controller import ViewController
 from view.vectors import Vector3
 from view.shapes import Torus
 
@@ -48,7 +48,8 @@ def on_resize(width, height):
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
-camera_rotation = Vector3()
+view_controller = ViewController()
+#view_controller.camera.rotation = Vector3()
 
 def update(dt):
   pass
@@ -67,9 +68,9 @@ def on_draw():
     glLoadIdentity()
     #glTranslatef(0, 0, -4)
     glTranslatef(0, 0, -3)
-    glRotatef(camera_rotation.z, 0, 0, 1)
-    glRotatef(camera_rotation.y, 0, 1, 0)
-    glRotatef(camera_rotation.x, 1, 0, 0)
+    glRotatef(view_controller.camera.rotation.z, 0, 0, 1)
+    glRotatef(view_controller.camera.rotation.y, 0, 1, 0)
+    glRotatef(view_controller.camera.rotation.x, 1, 0, 0)
     for mesh in meshes:
       mesh.draw()
     #torus.draw()
@@ -111,27 +112,21 @@ def setup():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 def rotate_model_to(x, y):
-  global camera_rotation
+  global view_controller
   #rx = x
   #ry = y
-  camera_rotation.x = y
-  camera_rotation.y = x
+  view_controller.camera.rotation.x = y
+  view_controller.camera.rotation.y = x
   #rz = y
 
 def rotate_model_by(x, y):
-  global camera_rotation
-  camera_rotation.x += y
-  camera_rotation.y += x
+  global view_controller
+  view_controller.camera.rotation.x += y
+  view_controller.camera.rotation.y += x
 
 class McCoyMouseHandler:
   def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
-    print "Mouse was dragged!"
     rotate_model_to(x, y)
-    #if buttons & mouse.LEFT:
-    #    pass
-
-def print_sentence(sentence):
-  print "Printing sentence: %s" % sentence
 
 def handle_speech(sentence):
   rotate_model_by(30, 0)
@@ -161,18 +156,6 @@ def main():
 
   window.push_handlers(McCoyMouseHandler())
   pyglet.app.run()
-
-#dialog = kytten.Dialog(
-#    kytten.TitleFrame("Kytten Demo",
-#                      kytten.VerticalLayout([
-#                          kytten.Label("Select dialog to show"),
-#                          kytten.Menu(options=["Document", "Form", "Scrollable"],
-#                                      on_select=on_select),
-#                          ]),
-#                      ),
-#    window=window, batch=batch, group=fg_group,
-#    anchor=kytten.ANCHOR_TOP_LEFT,
-#    theme=theme)
 
 if __name__ == "__main__":
   main()
