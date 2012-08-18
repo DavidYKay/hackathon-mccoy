@@ -16,7 +16,10 @@ This example demonstrates:
 from math import pi, sin, cos
 
 from pyglet.gl import *
+from pyglet.window import mouse
 import pyglet
+
+import kytten
 
 import obj
 from obj import Mesh, OBJ, loadOBJ
@@ -41,10 +44,17 @@ def on_resize(width, height):
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
+#global rx = 0
+#global ry = 0
+#global rz = 0
+rx = 0
+ry = 0
+rz = 0
+
 def update(dt):
     global rx, ry, rz
     #rx += dt * 1
-    ry += dt * 80
+    #ry += dt * 80
     #rz += dt * 30
     rx %= 360
     ry %= 360
@@ -63,6 +73,9 @@ def on_draw():
     for mesh in meshes:
       mesh.draw()
     #torus.draw()
+    
+    # draw the UI
+    batch.draw()
 
 def setup():
     # One-time GL setup
@@ -97,23 +110,32 @@ def setup():
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
+def rotate_model(x, y):
+  global rx, ry
+  print "Initial XY values: (%f, %f)" % (rx, ry)
+  #rx = x
+  #ry = y
+  
+  rx = y
+  ry = x
+  #rz = y
+  print "final XY values: (%f, %f)" % (rx, ry)
+
+class McCoyMouseHandler:
+  def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+    print "Mouse was dragged!"
+    rotate_model(x, y)
+    #if buttons & mouse.LEFT:
+    #    pass
+
+
 meshes = []
 
 setup()
 torus = Torus(1, 0.3, 50, 30)
 
 box = OBJ('models/box.obj')
-#man = OBJ('models/man.obj')
-#man = OBJ('models/man-centered.obj')
-#man = OBJ('models/man-centered-2.obj')
-#man = OBJ('models/man-smooth.obj')
-#man = OBJ('models/man-red.obj')
-#man.load_material_library('man-centered-2.mtl')
-#man = OBJ('models/man-normals.obj')
 man = OBJ('models/man-colored.obj')
-
-#man = obj.Man('models/man-red.obj')
-#man = obj.Man('models/box.obj')
 
 meshes.append(torus)
 #meshes.append(box)
@@ -121,4 +143,20 @@ meshes.append(man)
 
 rx = ry = rz = 0
 
+batch = pyglet.graphics.Batch()
+
+window.push_handlers(McCoyMouseHandler())
+#window.push_handlers(pyglet.window.event.WindowEventLogger())
 pyglet.app.run()
+
+#dialog = kytten.Dialog(
+#    kytten.TitleFrame("Kytten Demo",
+#                      kytten.VerticalLayout([
+#                          kytten.Label("Select dialog to show"),
+#                          kytten.Menu(options=["Document", "Form", "Scrollable"],
+#                                      on_select=on_select),
+#                          ]),
+#                      ),
+#    window=window, batch=batch, group=fg_group,
+#    anchor=kytten.ANCHOR_TOP_LEFT,
+#    theme=theme)

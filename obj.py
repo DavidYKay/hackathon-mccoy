@@ -22,7 +22,7 @@ class Material(object):
         self.name = name
 
     def apply(self, face=GL_FRONT_AND_BACK):
-        print "Applying material: %s" % self
+        #print "Applying material: %s" % self
         #import pdb; pdb.set_trace()
         if self.texture:
             glEnable(self.texture.target)
