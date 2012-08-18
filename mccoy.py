@@ -24,6 +24,7 @@ from listener import SpeechListener
 
 from view import obj
 from view.obj import Mesh, OBJ, loadOBJ
+from view.puppetmaster import PuppetMaster
 #from view.camera import Camera
 from view.controller import ViewController
 from view.vectors import Vector3
@@ -128,11 +129,13 @@ class McCoyMouseHandler:
 def handle_speech(sentence):
   rotate_model_by(30, 0)
 
+puppet_master = PuppetMaster(view_controller)
+
 class SpeechListenerThread(threading.Thread):
  def run (self):
-  listener = SpeechListener(handle_speech)
+  #listener = SpeechListener(handle_speech)
+  listener = SpeechListener(puppet_master.handle_speech)
   listener.loop()
-
 
 def main():
   SpeechListenerThread().start()
@@ -143,8 +146,8 @@ def main():
   box = OBJ('models/box.obj')
   man = OBJ('models/man-colored.obj')
 
-  meshes.append(torus)
-  meshes.append(man)
+  view_controller.meshes.append(torus)
+  view_controller.meshes.append(man)
 
   global batch
   batch = pyglet.graphics.Batch()
