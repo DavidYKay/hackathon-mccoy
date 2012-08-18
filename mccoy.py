@@ -54,7 +54,7 @@ def on_resize(width, height):
 view_controller = ViewController()
 #view_controller.camera.rotation = Vector3()
 
-bored = True
+bored = False
 def update(dt):
   if bored:
     view_controller.rotate_camera_by(IDLE_ROTATE_SPEED, 0)
