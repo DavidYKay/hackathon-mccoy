@@ -25,8 +25,18 @@ class PuppetMaster:
 
   def handle_speech(self, sentence):
     sentence = self.trim_tags(sentence)
-    words = "Command received: %s" % sentence
-    print words
+    print "Command received: %s" % sentence
+
+    if sentence == "LET'S BEGIN":
+      pass
+    elif sentence.find("RESET") != -1:
+      self.view_controller.zero_camera()
+    elif sentence.find("LEFT") != -1:
+    
+    elif sentence.find("FURTHER") != -1:
+      pass
+    elif sentence.find("RIGHT") != -1:
+
     #self.say_out_loud(words)
     self.rotate_model_by(45, 0)
 
@@ -40,4 +50,3 @@ class PuppetMaster:
 
   def rotate_model_by(self, x, y):
     self.view_controller.camera.rotation.x += y
-    self.view_controller.camera.rotation.y += x

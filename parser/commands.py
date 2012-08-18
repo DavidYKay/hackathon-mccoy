@@ -65,7 +65,7 @@ def english_to_digit(english):
 tokens = (
     "BODYPART",
 
-    "BODYPARTCOMMAND",
+    "BODYPART_COMMAND",
     "QUANTITY_COMMAND",
     "BASIC_COMMAND",
 
@@ -83,9 +83,9 @@ t_NAME = (r"MCCOY")
 
 t_STARTUP = (r"BEGIN")
 
-t_BODYPART = (r"ARM|LEG|HEAD|BODY")
+t_BODYPART = (r"ARM|LEG|HEAD|BODY|ALL")
 
-t_BODYPARTCOMMAND = (r"VIEW")
+t_BODYPART_COMMAND = (r"VIEW")
 t_QUANTITY_COMMAND = (r"UP|DOWN|LEFT|RIGHT|NEARER|CLOSER|FURTHER")
 t_BASIC_COMMAND    = (r"RUN|RESET")
 
@@ -156,7 +156,7 @@ def p_command_basic(p):
 #  p[0] = p[2]
 
 def p_command_bodypart(p):
-  'command : BODYPARTCOMMAND BODYPART'
+  'command : BODYPART_COMMAND BODYPART'
   p[0] = Command(p[1], subtype=p[2])
 
 def p_number_digit(p):
@@ -228,6 +228,7 @@ class TestPly(unittest.TestCase):
     MCCOY VIEW LEG
     MCCOY VIEW ARM
     MCCOY VIEW HEAD
+    MCCOY VIEW ALL
     '''
   def tearDown(self):
     pass
@@ -251,6 +252,7 @@ class TestParser(unittest.TestCase):
     VIEW LEG
     VIEW ARM
     VIEW HEAD
+    VIEW ALL
     RIGHT FIVE DEGREE
     RIGHT FORTY DEGREE
     RIGHT HUNDRED DEGREE

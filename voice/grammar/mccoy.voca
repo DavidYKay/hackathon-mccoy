@@ -4,9 +4,10 @@
 % NS_E
 </s>        sil
 
-% SHORTCOMMAND
+% BODYPART_COMMAND
 VIEW        v y uw
-RUN         r ah n
+
+% QUANTITY_COMMAND
 UP          ah p
 DOWN        d aw n
 LEFT        l eh f t
@@ -14,7 +15,11 @@ RIGHT       r ay t
 NEARER      n ih r er
 CLOSER      k l ow s er
 FURTHER     f er dh er
+
+% BASIC_COMMAND
+RUN         r ah n
 RESET       r iy s eh t
+BORED       b ao r d
 
 % STARTUP
 BEGIN       b ix g ih n
