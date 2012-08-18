@@ -19,11 +19,9 @@ class PuppetMaster:
   ########################################
 
   def rotate_model_to(self, x, y):
-    global view_controller
     self.view_controller.camera.rotation.x = y
     self.view_controller.camera.rotation.y = x
 
   def rotate_model_by(self, x, y):
-    global view_controller
     self.view_controller.camera.rotation.x += y
     self.view_controller.camera.rotation.y += x
