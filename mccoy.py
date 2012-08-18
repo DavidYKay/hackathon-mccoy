@@ -21,9 +21,9 @@ import pyglet
 
 import kytten
 
-import obj
-from obj import Mesh, OBJ, loadOBJ
-from shapes import Torus
+from view import obj
+from view.obj import Mesh, OBJ, loadOBJ
+from view.shapes import Torus
 
 try:
     # Try and create a window with multisampling (antialiasing)
