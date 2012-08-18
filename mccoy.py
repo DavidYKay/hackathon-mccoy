@@ -30,6 +30,8 @@ from view.controller import ViewController
 from view.vectors import Vector3
 from view.shapes import Torus
 
+IDLE_ROTATE_SPEED = 1
+
 try:
     # Try and create a window with multisampling (antialiasing)
     config = Config(sample_buffers=1, samples=4,
@@ -52,8 +54,12 @@ def on_resize(width, height):
 view_controller = ViewController()
 #view_controller.camera.rotation = Vector3()
 
+bored = True
 def update(dt):
-  pass
+  if bored:
+    view_controller.rotate_camera_by(IDLE_ROTATE_SPEED, 0)
+  else:
+    pass
     #global rx, ry, rz
     #rx += dt * 1
     #ry += dt * 80
@@ -112,28 +118,18 @@ def setup():
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, vec(1, 1, 1, 1))
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
-def rotate_model_to(x, y):
-  global view_controller
-  view_controller.camera.rotation.x = y
-  view_controller.camera.rotation.y = x
-
-def rotate_model_by(x, y):
-  global view_controller
-  view_controller.camera.rotation.x += y
-  view_controller.camera.rotation.y += x
-
 class McCoyMouseHandler:
   def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
-    rotate_model_to(x, y)
+    #view_controller.rotate_camera_by(dx, dy)
+    view_controller.rotate_camera_to(x, y)
 
 def handle_speech(sentence):
-  rotate_model_by(30, 0)
+  view_controller.rotate_camera_by(30, 0)
 
 puppet_master = PuppetMaster(view_controller)
 
 class SpeechListenerThread(threading.Thread):
  def run (self):
-  #listener = SpeechListener(handle_speech)
   listener = SpeechListener(puppet_master.handle_speech)
   listener.loop()
 
