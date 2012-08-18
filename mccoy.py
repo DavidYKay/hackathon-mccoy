@@ -26,6 +26,7 @@ from listener import SpeechListener
 
 from view import obj
 from view.obj import Mesh, OBJ, loadOBJ
+from view.vectors import Vector3
 from view.shapes import Torus
 
 try:
@@ -47,21 +48,18 @@ def on_resize(width, height):
     glMatrixMode(GL_MODELVIEW)
     return pyglet.event.EVENT_HANDLED
 
-#global rx = 0
-#global ry = 0
-#global rz = 0
-rx = 0
-ry = 0
-rz = 0
+
+camera_rotation = Vector3()
 
 def update(dt):
-    global rx, ry, rz
+  pass
+    #global rx, ry, rz
     #rx += dt * 1
     #ry += dt * 80
     #rz += dt * 30
-    rx %= 360
-    ry %= 360
-    rz %= 360
+    #rx %= 360
+    #ry %= 360
+    #rz %= 360
 pyglet.clock.schedule(update)
 
 @window.event
@@ -70,9 +68,9 @@ def on_draw():
     glLoadIdentity()
     #glTranslatef(0, 0, -4)
     glTranslatef(0, 0, -3)
-    glRotatef(rz, 0, 0, 1)
-    glRotatef(ry, 0, 1, 0)
-    glRotatef(rx, 1, 0, 0)
+    glRotatef(camera_rotation.z, 0, 0, 1)
+    glRotatef(camera_rotation.y, 0, 1, 0)
+    glRotatef(camera_rotation.x, 1, 0, 0)
     for mesh in meshes:
       mesh.draw()
     #torus.draw()
@@ -114,17 +112,17 @@ def setup():
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 50)
 
 def rotate_model_to(x, y):
-  global rx, ry
+  global camera_rotation
   #rx = x
   #ry = y
-  rx = y
-  ry = x
+  camera_rotation.x = y
+  camera_rotation.y = x
   #rz = y
 
 def rotate_model_by(x, y):
-  global rx, ry
-  rx += y
-  ry += x
+  global camera_rotation
+  camera_rotation.x += y
+  camera_rotation.y += x
 
 class McCoyMouseHandler:
   def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
@@ -132,7 +130,6 @@ class McCoyMouseHandler:
     rotate_model_to(x, y)
     #if buttons & mouse.LEFT:
     #    pass
-
 
 def print_sentence(sentence):
   print "Printing sentence: %s" % sentence
@@ -144,7 +141,7 @@ class SpeechListenerThread(threading.Thread):
  def run (self):
   listener = SpeechListener(handle_speech)
   listener.loop()
-  
+
 
 def main():
   SpeechListenerThread().start()
