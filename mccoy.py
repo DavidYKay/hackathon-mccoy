@@ -138,7 +138,6 @@ box = OBJ('models/box.obj')
 man = OBJ('models/man-colored.obj')
 
 meshes.append(torus)
-#meshes.append(box)
 meshes.append(man)
 
 rx = ry = rz = 0
@@ -146,7 +145,6 @@ rx = ry = rz = 0
 batch = pyglet.graphics.Batch()
 
 window.push_handlers(McCoyMouseHandler())
-#window.push_handlers(pyglet.window.event.WindowEventLogger())
 pyglet.app.run()
 
 #dialog = kytten.Dialog(
