@@ -1,4 +1,6 @@
+import subprocess
 class PuppetMaster:
+
   
   ########################################
   # Initialization
@@ -10,8 +12,22 @@ class PuppetMaster:
   ########################################
   # Public Methods
   ########################################
+  def trim_tags(self, sentence):
+    sentence = sentence.replace('sentence1:', '')
+    sentence = sentence.replace('<s>', '')
+    sentence = sentence.replace('</s>', '')
+    sentence = sentence.strip()
+    return sentence
+  
+  def say_out_loud(self, words):
+    args = ['/usr/bin/espeak', '-v', 'en', words]
+    subprocess.Popen(args)
 
   def handle_speech(self, sentence):
+    sentence = self.trim_tags(sentence)
+    words = "Command received: %s" % sentence
+    print words
+    #self.say_out_loud(words)
     self.rotate_model_by(45, 0)
 
   ########################################
