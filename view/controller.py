@@ -10,3 +10,6 @@ class ViewController:
 
   def rotate_camera_by(self, x, y):
     self.camera.rotate_by(x, y)
+  
+  #def zoom_camera_by(self, x):
+  #  self.camera.rotate_by(x, y)

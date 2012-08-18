@@ -81,6 +81,8 @@ tokens = (
     "STARTUP",
 )
 
+t_PORTION = (r"FULL|HALFWAY|HALF|QUARTER|SLIGHTLY|SLIGHT")
+
 t_NAME = (r"MCCOY")
 
 t_STARTUP = (r"BEGIN")
@@ -95,7 +97,6 @@ t_FLAVOR = (r"LET'S")
 
 t_UNIT = (r"DEGREE|FEET|FOOT|INCH")
 
-t_PORTION = (r"FULL|HALFWAY|HALF|QUARTER|SLIGHTLY|SLIGHT")
 
 t_DIGIT = (r"OH|ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE")
 t_DECIMAL = (r"THIRTY|FORTY|SIXTY|EIGHTY|NINETY")
@@ -143,6 +144,9 @@ class Command(object):
 # the name on left-hand side of the first p_* function definition.
 # The first rule is empty because I let the empty string be valid
 
+def p_command_portion_reverse(p):
+  'command : PORTION QUANTITY_COMMAND'
+  p[0] = Command(p[1], quantity=Quantity(p[2]))
 
 def p_startup(p):
   'command : FLAVOR STARTUP'
@@ -194,14 +198,10 @@ def p_command_portion(p):
   'command : QUANTITY_COMMAND PORTION'
   p[0] = Command(p[1], quantity=Quantity(p[2]))
 
-def p_command_portion_reverse(p):
-  'command : PORTION QUANTITY_COMMAND'
-  p[0] = Command(p[1], quantity=Quantity(p[2]))
 
 def p_command_quantity_unit(p):
   'command : QUANTITY_COMMAND quantity UNIT'
   p[0] = Command(p[1], quantity=p[2], unit=p[3])
-
 
 
 def p_error(p):
