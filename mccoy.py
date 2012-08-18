@@ -13,6 +13,7 @@ This example demonstrates:
 
 '''
 
+import threading
 from math import pi, sin, cos
 
 from pyglet.gl import *
@@ -20,6 +21,8 @@ from pyglet.window import mouse
 import pyglet
 
 import kytten
+
+from listener import SpeechListener
 
 from view import obj
 from view.obj import Mesh, OBJ, loadOBJ
@@ -129,6 +132,16 @@ class McCoyMouseHandler:
     #    pass
 
 
+def print_sentence(sentence):
+  print "Printing sentence: %s" % sentence
+
+class SpeechListenerThread(threading.Thread):
+ def run (self):
+  listener = SpeechListener(print_sentence)
+  listener.loop()
+  
+SpeechListenerThread().start()
+
 meshes = []
 
 setup()
@@ -146,6 +159,7 @@ batch = pyglet.graphics.Batch()
 
 window.push_handlers(McCoyMouseHandler())
 pyglet.app.run()
+
 
 #dialog = kytten.Dialog(
 #    kytten.TitleFrame("Kytten Demo",
