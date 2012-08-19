@@ -1,6 +1,8 @@
 from vectors import Vector3
 from copy import deepcopy
 
+import math
+
 class Camera:
   def __init__(self, position=Vector3(), rotation=Vector3()):
     self.rotation = deepcopy(rotation)
@@ -27,11 +29,15 @@ class Camera:
     self.target_position.z += z
   
   def find_step_distance(self, current, target):
-    return (target - current) * .01
+    delta = (target - current) 
+    if math.fabs(delta) < 1:
+      multiplier = .02
+    else:
+      multiplier = .02
+    step = delta * multiplier
+    return step
   
   def step_to_target(self):
-    print "Stepping! Current Pos: %s, Target: %s" % (self.position,
-                                                     self.target_position)
     if self.rotation.x != self.target_rotation.x:
       self.rotation.x += self.find_step_distance(self.rotation.x, self.target_rotation.x)
     if self.rotation.y != self.target_rotation.y:
