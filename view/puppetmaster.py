@@ -114,4 +114,4 @@ class PuppetMaster:
     self.view_controller.bored = not(self.view_controller.bored)
 
   def handle_begin(self, command):
-    pass
+    self.view_controller.reset_camera()

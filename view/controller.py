@@ -6,7 +6,8 @@ DEFAULT_CAMERA_ROTATION = Vector3(0,0,0)
 
 class ViewController:
   def __init__(self):
-    self.camera = Camera(position=Vector3(0,0,-3))
+    #self.camera = Camera(position=Vector3(0,0,-3))
+    self.camera = Camera(position=Vector3(0,0,0))
     self.meshes = []
     self.bored = False
   
