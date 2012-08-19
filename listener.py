@@ -7,7 +7,8 @@ PERFECT = 0.999
 HIGH    = 0.995
 MEDIUM  = 0.900
 LOW     = 0.800
-CMSCORE_THRESHOLD = LOW
+REALLY_LOW = 0.700
+CMSCORE_THRESHOLD = REALLY_LOW
 SCORE_THRESHOLD   = -13000
 
 COMMAND = 'padsp julius -input mic -C voice/julian.jconf'
