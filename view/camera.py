@@ -22,3 +22,6 @@ class Camera:
   def zoom_by(self, z):
     print "Zooming by: (%f)" % (z)
     self.position.z += z
+  
+  def __repr__(self):
+    return "Camera(%r, %r)" % (self.position, self.rotation,)

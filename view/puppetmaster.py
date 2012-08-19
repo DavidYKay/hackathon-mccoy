@@ -98,4 +98,11 @@ class PuppetMaster:
     self.execute_command(new_command)
   
   def handle_view(self, command):
-    pass
+    if command.subtype == 'BODY':
+      print "Viewing BODY"
+      self.view_controller.reset_camera()
+    elif command.subtype == 'ARM':
+      print "Viewing ARM"
+      # TODO: Actually move to the arm
+    else:
+      print "Viewing %s" % command.subtype

@@ -3,3 +3,9 @@ class Vector3:
     self.x = x
     self.y = y
     self.z = z
+  
+  def __repr__(self):
+    return "(%r, %r, %r)" % (
+        self.x,
+        self.y,
+        self.z)
