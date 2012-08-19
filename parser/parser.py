@@ -91,7 +91,7 @@ t_BODYPART = (r"ARM|LEG|HEAD|BODY|ALL")
 
 t_BODYPART_COMMAND = (r"VIEW")
 t_QUANTITY_COMMAND = (r"UP|DOWN|LEFT|RIGHT|NEARER|CLOSER|FURTHER")
-t_BASIC_COMMAND    = (r"RUN|RESET")
+t_BASIC_COMMAND    = (r"RUN|RESET|BORED")
 
 t_FLAVOR = (r"LET'S")
 
@@ -155,7 +155,7 @@ def p_startup(p):
 
 def p_command_basic(p):
   'command : BASIC_COMMAND'
-  p[0] = p[1]
+  p[0] = Command(p[1])
 
 #def p_mccoy_command(p):
 #  'command : NAME command'
@@ -270,6 +270,7 @@ class TestParser(unittest.TestCase):
     RIGHT QUARTER
     SLIGHTLY CLOSER
     SLIGHTLY FURTHER
+    BORED
     '''
     '''
     '''

@@ -8,6 +8,7 @@ class ViewController:
   def __init__(self):
     self.camera = Camera(position=Vector3(0,0,-3))
     self.meshes = []
+    self.bored = False
   
   def reset_camera(self):
     self.camera.position.x = DEFAULT_CAMERA_POSITION.x

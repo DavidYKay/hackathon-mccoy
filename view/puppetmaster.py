@@ -14,6 +14,9 @@ class PuppetMaster:
     self.view_controller = view_controller
     self.parser = McCoyParser()
     self.command_methods = {
+      'BORED':    self.handle_bored,
+      'BEGIN':    self.handle_begin,
+
       'VIEW':     self.handle_view,
       'LEFT':     self.handle_rotate,
       'RIGHT':    self.handle_rotate,
@@ -21,7 +24,7 @@ class PuppetMaster:
       'DOWN':     self.handle_rotate,
       'CLOSER':   self.handle_zoom,
       'FURTHER':  self.handle_zoom,
-
+      
       'SLIGHTLY': self.handle_slightly,
       'HALFWAY':  self.handle_slightly,
       'HALF':     self.handle_slightly,
@@ -106,3 +109,9 @@ class PuppetMaster:
       # TODO: Actually move to the arm
     else:
       print "Viewing %s" % command.subtype
+  
+  def handle_bored(self, command):
+    self.view_controller.bored = not(self.view_controller.bored)
+
+  def handle_begin(self, command):
+    pass
