@@ -2,6 +2,8 @@ import subprocess
 
 from parser.parser import McCoyParser
 
+ZOOM_BASE = 3
+
 class PuppetMaster:
   ########################################
   # Initialization
@@ -71,9 +73,18 @@ class PuppetMaster:
     self.view_controller.rotate_camera_by(x, y)
  
   def handle_zoom(self, command):
-    pass
+    if command.symbol == 'CLOSER':
+      z = command.quantity.amount
+    elif command.symbol == 'FURTHER':
+      z = command.quantity.amount * -1
+    if command.quantity.portion == True:
+      z *= ZOOM_BASE
+    else:
+      pass
+    self.view_controller.zoom_camera_by(z)
   
   def handle_slightly(self, command):
+    # TODO: INVERT the command
     pass
   
   def handle_view(self, command):

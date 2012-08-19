@@ -14,3 +14,11 @@ class Camera:
     print "Rotating by: (%f, %f)" % (x, y)
     self.rotation.x += y
     self.rotation.y += x
+  
+  def zoom_to(self, z):
+    print "Zooming to: (%f)" % (z)
+    self.position.z = z
+
+  def zoom_by(self, z):
+    print "Zooming by: (%f)" % (z)
+    self.position.z += z
