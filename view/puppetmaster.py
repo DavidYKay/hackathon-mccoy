@@ -1,6 +1,6 @@
 import subprocess
 
-from parser.parser import McCoyParser
+from parser.parser import McCoyParser, Command, Quantity
 
 ZOOM_BASE = 3
 
@@ -20,7 +20,12 @@ class PuppetMaster:
       'DOWN':     self.handle_rotate,
       'CLOSER':   self.handle_zoom,
       'FURTHER':  self.handle_zoom,
+
       'SLIGHTLY': self.handle_slightly,
+      'HALFWAY':  self.handle_slightly,
+      'HALF':     self.handle_slightly,
+      'QUARTER':  self.handle_slightly,
+      'FULL':     self.handle_slightly,
     }
   
   ########################################
@@ -85,7 +90,8 @@ class PuppetMaster:
   
   def handle_slightly(self, command):
     # TODO: INVERT the command
-    pass
+    new_command = Command(command.quantity.amount, quantity=Quantity(command.symbol))
+    self.execute_command(new_command)
   
   def handle_view(self, command):
     pass
