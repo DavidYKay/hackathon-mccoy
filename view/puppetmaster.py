@@ -1,6 +1,7 @@
 import subprocess
 
 from parser.parser import McCoyParser, Command, Quantity
+from view.calculator import get_relative_zoom
 
 ZOOM_BASE = 3
 
@@ -79,13 +80,16 @@ class PuppetMaster:
  
   def handle_zoom(self, command):
     if command.symbol == 'CLOSER':
-      z = command.quantity.amount
+      magnitude = command.quantity.amount
     elif command.symbol == 'FURTHER':
-      z = command.quantity.amount * -1
+      magnitude = command.quantity.amount * -1
+
     if command.quantity.portion == True:
-      z *= ZOOM_BASE
+      currentZoom = self.view_controller.camera.position.z
+      z = get_relative_zoom(currentZoom, magnitude)
     else:
       pass
+
     self.view_controller.zoom_camera_by(z)
   
   def handle_slightly(self, command):
