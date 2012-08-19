@@ -73,8 +73,11 @@ pyglet.clock.schedule(update)
 def on_draw():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     glLoadIdentity()
+    glTranslatef(view_controller.camera.position.x,
+                 view_controller.camera.position.y,
+                 view_controller.camera.position.z)
     #glTranslatef(0, 0, -4)
-    glTranslatef(0, 0, -3)
+    #glTranslatef(0, 0, -3)
     glRotatef(view_controller.camera.rotation.z, 0, 0, 1)
     glRotatef(view_controller.camera.rotation.y, 0, 1, 0)
     glRotatef(view_controller.camera.rotation.x, 1, 0, 0)

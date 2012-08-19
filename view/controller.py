@@ -1,8 +1,9 @@
 from camera import Camera
+from vectors import Vector3
 
 class ViewController:
   def __init__(self):
-    self.camera = Camera()
+    self.camera = Camera(position=Vector3(0,0,-4))
     self.meshes = []
   
   def rotate_camera_to(self, x, y):
