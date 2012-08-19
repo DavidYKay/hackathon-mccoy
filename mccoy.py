@@ -58,7 +58,7 @@ def update(dt):
   if view_controller.bored:
     view_controller.rotate_camera_by(IDLE_ROTATE_SPEED, 0)
   else:
-    pass
+    view_controller.step_camera_to_target()
     #global rx, ry, rz
     #rx += dt * 1
     #ry += dt * 80
