@@ -16,6 +16,8 @@ class PuppetMaster:
     self.command_methods = {
       'BORED':    self.handle_bored,
       'BEGIN':    self.handle_begin,
+      'RUN':    self.handle_begin,
+      'RESET':    self.handle_begin,
 
       'VIEW':     self.handle_view,
       'LEFT':     self.handle_rotate,
@@ -23,6 +25,7 @@ class PuppetMaster:
       'UP':       self.handle_rotate,
       'DOWN':     self.handle_rotate,
       'CLOSER':   self.handle_zoom,
+      'NEARER':   self.handle_zoom,
       'FURTHER':  self.handle_zoom,
       
       'SLIGHTLY': self.handle_slightly,
@@ -88,6 +91,7 @@ class PuppetMaster:
       magnitude = command.quantity.amount * -1
 
     if command.quantity.portion == True:
+      magnitude = command.quantity.amount
       currentZoom = self.view_controller.camera.position.z
       z = get_relative_zoom(currentZoom, magnitude)
     else:
@@ -103,10 +107,14 @@ class PuppetMaster:
   def handle_view(self, command):
     if command.subtype == 'BODY':
       print "Viewing BODY"
-      self.view_controller.reset_camera()
+      self.view_controller.zoom_camera_to(-0.5)
     elif command.subtype == 'ARM':
       print "Viewing ARM"
       # TODO: Actually move to the arm
+    elif command.subtype == 'HEAD':
+      print "Viewing HEAD"
+      self.view_controller.zoom_camera_to(-0.5)
+      self.view_controller.rotate_camera_to(0, 0.5)
     else:
       print "Viewing %s" % command.subtype
   

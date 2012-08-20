@@ -97,8 +97,8 @@ t_FLAVOR = (r"LET'S")
 
 t_UNIT = (r"DEGREE|FEET|FOOT|INCH")
 
-t_DIGIT = (r"OH|ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE")
 t_DECIMAL = (r"THIRTY|FORTY|SIXTY|EIGHTY|NINETY")
+t_DIGIT = (r"OH|ZERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE")
 t_TRIPLEDIGIT = (r"HUNDRED")
 
 def t_newline(t):
@@ -164,12 +164,13 @@ def p_command_bodypart(p):
   'command : BODYPART_COMMAND BODYPART'
   p[0] = Command(p[1], subtype=p[2])
 
-def p_number_digit(p):
-  'number : DIGIT'
-  p[0] = english_to_digit(p[1]) 
-
 def p_number_decimal(p):
   'number : DECIMAL'
+  p[0] = english_to_digit(p[1]) 
+
+
+def p_number_digit(p):
+  'number : DIGIT'
   p[0] = english_to_digit(p[1]) 
 
 def p_number_tripledigit(p):
