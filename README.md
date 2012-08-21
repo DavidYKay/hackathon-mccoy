@@ -10,6 +10,14 @@ This app is implemented using the following libraries:
 * VoxForge - 1MB speech model to recognize phonemes.
 * PLY - We use Yacc and Lex to parse the text that comes into Python from Julian.
 
+## Background
+
+McCoy was born at Meetup's Battle of the Braces hackathon, Python vs Ruby round.
+
+## Video
+
+View the hackathon presentation on [YouTube](http://youtu.be/uC6h173sidA).
+
 ----------------------------------------
 Copyright 2012 David Y. Kay
 ----------------------------------------
